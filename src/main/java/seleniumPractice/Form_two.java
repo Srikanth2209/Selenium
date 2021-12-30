@@ -1,20 +1,36 @@
 package seleniumPractice;
+import config.PropertiesFile;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import java.io.FileNotFoundException;
+
 public class Form_two
     {
+        public static String browserName = null;
         WebDriver driver;
         @BeforeTest
-        public void BeforeTest()
-        {
-            WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
+        public void BeforeTest() throws FileNotFoundException {
+            PropertiesFile.getProperties();
+
+            if(browserName.equalsIgnoreCase("chrome"))
+            {
+                WebDriverManager.chromedriver().setup();
+                driver = new ChromeDriver();
+            }
+            else if(browserName.equalsIgnoreCase("firefox"))
+            {
+                WebDriverManager.firefoxdriver().setup();
+                driver = new FirefoxDriver();
+            }
+
             driver.manage().window().maximize();
             driver.get("https://demoqa.com/automation-practice-form");
         }
@@ -51,7 +67,7 @@ public class Form_two
         }
         @AfterTest
         public void AfterTest() throws InterruptedException {
-            //driver.close();
+            driver.close();
         }
     }
 
