@@ -1,11 +1,15 @@
 package structuralCode;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 
 public class Actions
@@ -23,6 +27,9 @@ public class Actions
     public  String getPageTitle(){
 
         return driver.getTitle();
+    }
+    public WebElement getElement(By locator){
+        return driver.findElement(locator);
     }
     public void ValueInTextBox(WebElement element, String textValue){
 
@@ -58,4 +65,30 @@ public class Actions
             System.out.println("File is not found in the given path");
         }
     }
-}//propertiesPath+"/src/main/java/config/config.properties");
+    public void getLinksCount(String element){
+            List<WebElement> links = driver.findElements(By.tagName(String.valueOf(element)));
+            System.out.println("The count of links is: " + links.size());
+        }
+    public void getLinkText(String element) {
+        List<WebElement> links = driver.findElements(By.tagName(element));
+        for (WebElement link : links) {
+            String linkText = link.getText();
+            System.out.println(linkText);
+        }
+    }
+    public void getAllLinks(String element) {
+        List<WebElement> links = driver.findElements(By.tagName(element));
+        for (WebElement link : links) {
+            String LinksNames = link.getAttribute("href");
+            System.out.println(LinksNames);
+        }
+    }
+    public void doSelectByVisibleText(WebElement element,String visibleText)
+    {
+        if(isElementsPresent(element)){
+            new Select(element).selectByVisibleText(visibleText);
+        }else{
+            System.out.println("WebElement is not found ");
+        }
+    }
+}
